@@ -1,0 +1,15 @@
+{
+  "name": "panther-md",
+  "version": "1.0.0",
+  "description": "Panther MD WhatsApp Bot",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "latest",
+    "pino": "latest",
+    "qrcode-terminal": "latest"
+  }
+}
