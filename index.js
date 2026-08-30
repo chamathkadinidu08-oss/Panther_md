@@ -3,6 +3,7 @@ import makeWASocket, {
   DisconnectReason
 } from "@whiskeysockets/baileys";
 import pino from "pino";
+import qrcode from "qrcode-terminal";
 
 const PHONE_NUMBER = "94707435575";
 
@@ -13,7 +14,7 @@ async function startBot() {
   const sock = makeWASocket({
     auth: state,
     logger: pino({ level: "silent" }),
-    printQRInTerminal: true
+    
   });
 
   sock.ev.on("creds.update", saveCreds);
@@ -23,21 +24,25 @@ async function startBot() {
     
   
 
-  sock.ev.on("connection.update", ({ connection, lastDisconnect }) => {
-    if (connection === "open") {
-      console.log("✅ PANTHER MD CONNECTED!");
-    }
+  sock.ev.on("connection.update", ({ connection, lastDisconnect, qr }) => {
+  if (qr) {
+    qrcode.generate(qr, { small: true });
+  }
 
-    if (connection === "close") {
-      const shouldReconnect =
-        lastDisconnect?.error?.output?.statusCode !==
-        DisconnectReason.loggedOut;
+  if (connection === "open") {
+    console.log("✅ PANTHER MD CONNECTED!");
+  }
 
-      if (shouldReconnect) {
-        startBot();
-      }
+  if (connection === "close") {
+    const shouldReconnect =
+      lastDisconnect?.error?.output?.statusCode !==
+      DisconnectReason.loggedOut;
+
+    if (shouldReconnect) {
+      startBot();
     }
-  });
+  }
+});
 
   sock.ev.on("messages.upsert", async ({ messages }) => {
     const msg = messages[0];
