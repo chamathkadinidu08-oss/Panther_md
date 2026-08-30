@@ -4,7 +4,7 @@ import makeWASocket, {
 } from "@whiskeysockets/baileys";
 import pino from "pino";
 
-const PHONE_NUMBER = "947XXXXXXXX";
+const PHONE_NUMBER = "94707435575";
 
 async function startBot() {
   const { state, saveCreds } =
