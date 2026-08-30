@@ -18,7 +18,7 @@ async function startBot() {
 
   sock.ev.on("creds.update", saveCreds);
 
-  if (!sock.authState.creds.registered) {
+  if (!state.creds.registered) {
     const code = await sock.requestPairingCode(PHONE_NUMBER);
     console.log("PAIRING CODE:", code);
   }
